@@ -1,0 +1,16 @@
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
+    bodyParser: true,
+  });
+  app.enableCors();
+  // app.useBodyParser('json', { limit: '5mb' });
+  app.useGlobalPipes(new ValidationPipe());
+  await app.listen(process.env.PORT ?? 10000);
+}
+
+bootstrap();

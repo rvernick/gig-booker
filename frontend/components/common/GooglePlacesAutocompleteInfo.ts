@@ -1,0 +1,95 @@
+// GooglePlacesAutocompleteProps.ts
+// import { GooglePlacesAutocompleteProps } from 'react-native-google-places-autocomplete';
+import {
+  StyleSheet,
+} from 'react-native';
+const defaultStyles = {
+  container: {
+    flex: 1,
+  },
+  textInputContainer: {
+    flexDirection: 'row',
+  },
+  textInput: {
+    backgroundColor: '#FFFFFF',
+    height: 44,
+    borderRadius: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    fontSize: 15,
+    flex: 1,
+    marginBottom: 5,
+  },
+  listView: {},
+  row: {
+    backgroundColor: '#FFFFFF',
+    padding: 13,
+    minHeight: 44,
+    flexDirection: 'row',
+  },
+  loader: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    height: 20,
+  },
+  description: {},
+  separator: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: '#c8c7cc',
+  },
+  poweredContainer: {
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
+    borderColor: '#c8c7cc',
+    borderTopWidth: 0.5,
+  },
+  powered: {},
+};
+
+export const GooglePlacesAutocompleteDefaultProps = { // GooglePlacesAutocompleteProps = {
+  autoFillOnNotFound: false,
+  currentLocation: false,
+  currentLocationLabel: 'Current location',
+  debounce: 0,
+  disableScroll: false,
+  enableHighAccuracyLocation: true,
+  enablePoweredByContainer: true,
+  fetchDetails: false,
+  filterReverseGeocodingByTypes: [],
+  GooglePlacesDetailsQuery: {},
+  GooglePlacesSearchQuery: {
+    rankby: 'distance',
+    type: 'restaurant',
+  },
+  GoogleReverseGeocodingQuery: {},
+  isRowScrollable: true,
+  keyboardShouldPersistTaps: 'always',
+  listHoverColor: '#ececec',
+  listUnderlayColor: '#c8c7cc',
+  listViewDisplayed: 'auto',
+  keepResultsAfterBlur: false,
+  minLength: 0,
+  nearbyPlacesAPI: 'GooglePlacesSearch',
+  numberOfLines: 1,
+  onFail: () => {},
+  onNotFound: () => {},
+  onPress: () => {},
+  onTimeout: () => console.warn('google places autocomplete: request timeout'),
+  placeholder: '',
+  predefinedPlaces: [],
+  predefinedPlacesAlwaysVisible: false,
+  query: {
+    key: 'missing api key',
+    language: 'en',
+    types: 'geocode',
+  },
+  styles : defaultStyles,
+  suppressDefaultStyles: false,
+  textInputHide: false,
+  textInputProps: {},
+  timeout: 20000,
+  isNewPlacesAPI: false,
+  fields: '*',
+};
