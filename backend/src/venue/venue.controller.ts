@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
 import { Venue } from './venue.entity';
-import { VenueService, BookingInstructionsUpsertArgs } from './venue.service';
+import { VenueService } from './venue.service';
 import { VenueBookingInstructions } from './venue-booking-instructions.entity';
 import { BookingMethodType } from './booking-method-type.enum';
 
@@ -46,7 +46,25 @@ type VenueUpsertDto = {
   musicTypes: string[];
 };
 
-type BookingInstructionsUpsertDto = BookingInstructionsUpsertArgs & { username: string };
+type BookingInstructionsUpsertDto = {
+  username: string;
+  venueId: number;
+  type: BookingMethodType;
+  generalNotes?: string | null;
+  notes?: string | null;
+  bodyTemplate?: string | null;
+  phoneNumber?: string | null;
+  contactName?: string | null;
+  bestTimeToCall?: string | null;
+  emailAddress?: string | null;
+  subjectTemplate?: string | null;
+  url?: string | null;
+  streetAddress?: string | null;
+  city?: string | null;
+  state?: string | null;
+  postalCode?: string | null;
+  country?: string | null;
+};
 
 @Controller('venue')
 export class VenueController {
@@ -66,7 +84,10 @@ export class VenueController {
 
   @UseGuards(AuthGuard)
   @Post('create')
-  create(@Body() body: VenueCreateDto): Promise<Venue> {
+  create(
+    @Body()
+    body: VenueCreateDto,
+  ): Promise<Venue> {
     return this.venueService.create({
       name: body.name ?? null,
       location: body.location,
@@ -79,7 +100,10 @@ export class VenueController {
 
   @UseGuards(AuthGuard)
   @Post('update')
-  update(@Body() body: VenueUpdateDto): Promise<Venue> {
+  update(
+    @Body()
+    body: VenueUpdateDto,
+  ): Promise<Venue> {
     return this.venueService.update({
       id: Number(body.id),
       name: body.name ?? null,
@@ -93,7 +117,10 @@ export class VenueController {
 
   @UseGuards(AuthGuard)
   @Post('upsert')
-  upsert(@Body() body: VenueUpsertDto): Promise<Venue> {
+  upsert(
+    @Body()
+    body: VenueUpsertDto,
+  ): Promise<Venue> {
     return this.venueService.upsert({
       id: Number(body.id ?? 0),
       name: body.name ?? null,

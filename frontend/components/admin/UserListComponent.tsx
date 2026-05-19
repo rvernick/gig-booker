@@ -1,22 +1,20 @@
 
 import React, { useEffect, useState } from 'react';
-import { useQuery, useQueryClient } from'@tanstack/react-query';
-import { useRouter } from 'expo-router';
+import { useQuery } from'@tanstack/react-query';
 import { useSession } from '@/common/ctx';
 import { useIsFocused } from '@react-navigation/native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { VStack } from '../ui/vstack';
 import { HStack } from '../ui/hstack';
 import { ScrollView } from '../ui/scroll-view';
-import { CheckIcon, FilterIcon, ArrowUpDownIcon, XIcon } from 'lucide-react-native';
+import { FilterIcon, ArrowUpDownIcon, XIcon } from 'lucide-react-native';
 import { Pressable } from '../ui/pressable';
 import { Text } from '../ui/text';
 import { User } from '@/models/User';
 
 import { allUsers } from '@/common/data-utils';
 import { devLog, ensureString } from '@/common/utils';
-import { Checkbox, CheckboxIcon, CheckboxIndicator, CheckboxLabel } from '../ui/checkbox';
-import CoSAvatarComponent from '../common/CoSAvatarComponent';
+import GBAvatarComponent from '../common/GBAvatarComponent';
 import { Heading } from '../ui/heading';
 import { Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragIndicatorWrapper, SelectInput, SelectItem, SelectPortal, SelectTrigger } from '../ui/select';
 import { ChevronDownIcon, Icon } from '../ui/icon';
@@ -32,7 +30,6 @@ type UserListProps = {
 const UserListComponent = () => {
   const session = useSession();
   const username = session.username ? session.username : '';
-  const router = useRouter();
   const isFocused = useIsFocused();
   const [isUpdating, setIsUpdating] = useState(true);
   const [filterText, setFilterText] = useState('');
@@ -100,7 +97,7 @@ const UserListComponent = () => {
         onPress={handlePress}
       >
         <HStack className='row-primary' key={'user: ' + user.id} >
-          <CoSAvatarComponent size='md' photoId={user.photo?.id} fallbackText={user.firstName} />
+          <GBAvatarComponent size='md' photoId={user.photo?.id} fallbackText={user.firstName} />
           <VStack className="flex-1">
             <Text className="text-xl">   {name}</Text>
             <Text className="text-typography-600">     {description}</Text>

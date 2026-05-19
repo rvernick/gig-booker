@@ -1,6 +1,6 @@
 export enum BookingMethodType {
-  PHONE = 'PHONE',
-  EMAIL = 'EMAIL',
-  WEB_FORM = 'WEB_FORM',
-  SNAIL_MAIL = 'SNAIL_MAIL',
+  PHONE = 'phone',
+  EMAIL = 'email',
+  WEB_FORM = 'web_form',
+  SNAIL_MAIL = 'snail_mail',
 }

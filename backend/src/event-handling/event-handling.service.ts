@@ -1,11 +1,11 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CoSEvent } from '../event/event.entity';
+import { GBEvent } from '../event/event.entity';
 import { EventType } from '../event/event-type.enum';
 import { IEventHandler } from './event-handler.interface';
 import { User } from '../auth/user.entity';
-import { CoSEventHandled } from './event-handled.entity';
+import { GBEventHandled } from './event-handled.entity';
 import { devLog } from '../utils/utils';
 import { UserService } from '../auth/user.service';
 import { Cron } from '@nestjs/schedule';
@@ -17,10 +17,10 @@ export class EventHandlingService {
   private handlers: Map<EventType, IEventHandler[]> = new Map();
 
   constructor(
-    @InjectRepository(CoSEvent)
-    private eventRepository: Repository<CoSEvent>,
-    @InjectRepository(CoSEventHandled)
-    private eventHandledRepository: Repository<CoSEventHandled>,
+    @InjectRepository(GBEvent)
+    private eventRepository: Repository<GBEvent>,
+    @InjectRepository(GBEventHandled)
+    private eventHandledRepository: Repository<GBEventHandled>,
     @InjectRepository(Household)
     private householdRepository: Repository<Household>,
     @Inject(UserService)
@@ -55,7 +55,7 @@ export class EventHandlingService {
     this.logger.log(`Registered handler: ${handler.handlerName} for types: ${handler.eventTypes.join(', ')}`);
   }
 
-  async emitUserCreatedEvent(user: User): Promise<CoSEvent> {
+  async emitUserCreatedEvent(user: User): Promise<GBEvent> {
     const event = this.eventRepository.create({
       type: EventType.USER_CREATED,
       user: user,
@@ -67,7 +67,7 @@ export class EventHandlingService {
   /**
    * Process all handlers for an event
    */
-  private async processHandlers(event: CoSEvent): Promise<void> {
+  private async processHandlers(event: GBEvent): Promise<void> {
     const handlers = this.handlers.get(event.type) || [];
     let allEventsProcessedSuccessfully = true;
 
@@ -117,11 +117,11 @@ export class EventHandlingService {
    * Mark an event as handled by a specific handler
    */
   private async markEventHandled(
-    event: CoSEvent,
+    event: GBEvent,
     handlerName: string,
     success: boolean,
     errorMessage?: string,
-  ): Promise<CoSEventHandled> {
+  ): Promise<GBEventHandled> {
     const eventHandled = this.eventHandledRepository.create({
       event: event,
       handlerName,
@@ -134,7 +134,7 @@ export class EventHandlingService {
   /**
    * Get all unhandled events for a specific handler
    */
-  async getUnhandledEvents(handlerName: string, eventType?: EventType): Promise<CoSEvent[]> {
+  async getUnhandledEvents(handlerName: string, eventType?: EventType): Promise<GBEvent[]> {
     const query = this.eventRepository
       .createQueryBuilder('event')
       .leftJoin('event.handledBy', 'handled', 'handled.handlerName = :handlerName', { handlerName })

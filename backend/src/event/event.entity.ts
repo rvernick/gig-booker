@@ -3,7 +3,7 @@ import { EventType } from './event-type.enum';
 import { User } from '../auth/user.entity';
 
 @Entity()
-export class CoSEvent {
+export class GBEvent {
   @PrimaryGeneratedColumn()
   id: number;
 

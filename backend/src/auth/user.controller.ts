@@ -102,12 +102,6 @@ export class UserController {
     return this.userService.getSecretsSecurelyV1();
   }
 
-  @Public()
-  @Get('google-ios-client-id')
-  googleIOSClientId() {
-    return this.userService.getGoogleIOSClientId();
-  }
-
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
   @Post('update-push-token')

@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { GeographicLocation } from '../auth/geographic-location.entity';
+import { GeographicLocation } from '../common/geographic-location.entity';
 import { VenueSocialLink } from './venue-social-link.entity';
 import { VenueSize } from './venue-size.enum';
 import { VenueBookingInstructions } from './venue-booking-instructions.entity';
@@ -24,7 +24,11 @@ export class Venue {
   @Column({ name: 'location_id', type: 'int', nullable: false })
   locationId: number;
 
-  @OneToOne(() => GeographicLocation, { nullable: false, cascade: false, eager: true })
+  @OneToOne(() => GeographicLocation, {
+    nullable: false,
+    cascade: false,
+    eager: true,
+  })
   @JoinColumn({ name: 'location_id' })
   location: GeographicLocation;
 
@@ -34,10 +38,19 @@ export class Venue {
   @OneToMany(() => VenueSocialLink, (link) => link.venue, { eager: false })
   socials: VenueSocialLink[];
 
-  @Column({ type: 'varchar', length: 512, name: 'booking_contact', nullable: true })
+  @Column({
+    type: 'varchar',
+    length: 512,
+    name: 'booking_contact',
+    nullable: true,
+  })
   bookingContact: string | null;
 
-  @Column({ type: 'enum', enum: VenueSize, name: 'size' })
+  @Column({
+    type: 'enum',
+    enum: VenueSize,
+    name: 'size',
+  })
   size: VenueSize;
 
   @Column({ type: 'text', array: true, nullable: false, default: '{}' })

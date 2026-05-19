@@ -14,7 +14,7 @@ import { OAuthVerify } from './oauth-verify.entity';
 import { Household } from './household.entity';
 import { S3MediaService } from '../media/aws-media.service';
 import { S3Media } from '../media/aws-media.entity';
-import { GeographicLocation } from './geographic-location.entity';
+import { GeographicLocation } from '../common/geographic-location.entity';
 import { randomInt } from 'crypto';
 import { EventService } from '../event/event.service';
 
@@ -92,6 +92,9 @@ export class UserService {
     devLog('newUser:' + JSON.stringify(newUser));
     if (newUser.source === Source.GIG_BOOKER) {
       newUser.emailVerified = this.canBypassEmailVerification(username);
+      newUser.email = username;
+    } else if (newUser.source === Source.GOOGLE) {
+      newUser.emailVerified = true;
       newUser.email = username;
     } else {
       this.logger.log('info', 'Source not matched create user with source: ' + type);
@@ -314,10 +317,6 @@ export class UserService {
       googleMapsAPIKey: this.safelyGetConfig('GOOGLE_MAPS_API_KEY'),
     };
     return Promise.resolve(result);
-  }
-
-  async getGoogleIOSClientId(): Promise<string> {
-    return Promise.resolve(this.safelyGetConfig('GOOGLE_IOS_CLIENT_ID'));
   }
 
   async getAndVerifyOAuthCode(verifyCode: string, target: string, requireUser: boolean = true): Promise<OAuthVerify> {

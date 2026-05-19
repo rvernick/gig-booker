@@ -8,25 +8,25 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { SocialSite } from '../social/social-site.enum';
-import { Venue } from './venue.entity';
+import { User } from '../auth/user.entity';
+import { SocialSite } from './social-site.enum';
 
-@Entity({ name: 'venue_social_link' })
-export class VenueSocialLink {
+@Entity({ name: 'social_link' })
+export class SocialLink {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Index()
-  @Column({ name: 'venue_id', type: 'int', nullable: false })
-  venueId: number;
+  @Column({ name: 'user_id', type: 'int', nullable: false })
+  userId: number;
 
-  @ManyToOne(() => Venue, (venue) => venue.socials, {
+  @ManyToOne(() => User, (user) => user.socialLinks, {
     nullable: false,
     eager: false,
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'venue_id' })
-  venue: Venue;
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
   @Column({
     type: 'enum',

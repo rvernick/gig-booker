@@ -61,6 +61,9 @@ export class HelpOffer {
   @UpdateDateColumn({ name: 'updated_on' })
   updatedOn: Date;
 
-  @DeleteDateColumn({ name: 'deleted_on' })
-  deletedOn: Date;
+  @DeleteDateColumn({
+    name: 'deleted_on',
+    nullable: true,
+  })
+  deletedOn: Date | null;
 }
