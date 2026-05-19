@@ -210,7 +210,7 @@ export const CreateAccountComponent: React.FC<CreateAccountComponentProps> = ({ 
             I have an account
           </LinkText>
       </Link>
-      <Link isExternal={true} href="https://www.cup-of-sugar.com">
+      <Link isExternal={true} href="https://www.gig-booker.com">
         <LinkText className="font-medium text-sm text-primary-700 group-hover/link:text-primary-600">Who we are</LinkText>
       </Link>
       </VStack>

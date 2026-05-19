@@ -10,7 +10,7 @@ export const sendMailgunEmail = async (
   subject: string,
   body: string,
   htmlBody: string | null,
-  from: string = 'info@cup-of-sugar.com',
+  from: string = 'info@gig-booker.com',
 ): Promise<boolean> => {
   const apiKey = process.env.MAILGUN_API_KEY;
   if (!apiKey) {
@@ -21,23 +21,25 @@ export const sendMailgunEmail = async (
 
   const mg = mailgun.client({ username: 'api', key: apiKey });
   try {
-    const messageData = htmlBody ? {
-      from: 'Cup of Sugar Support<systems@cup-of-sugar.com>',
-      to: email,
-      subject: subject,
-      text: body,
-      html: htmlBody,
-    } : {
-      from: 'Cup of Sugar Support<systems@cup-of-sugar.com>',
-      to: email,
-      subject: subject,
-      text: body,
-    };
+    const messageData = htmlBody
+      ? {
+          from: 'Gig Booker Support<systems@gig-booker.com>',
+          to: email,
+          subject: subject,
+          text: body,
+          html: htmlBody,
+        }
+      : {
+          from: 'Gig Booker Support<systems@gig-booker.com>',
+          to: email,
+          subject: subject,
+          text: body,
+        };
 
-    const url = 'cup-of-sugar.com';
+    const url = 'gig-booker.com';
     // const url = isDevelopment()
     //   ? 'sandboxa7e956f9e5b94612b3300c9b4b25c72c.mailgun.org'
-    //   : 'api.mailgun.net/v3/cup-of-sugar.com/messages';
+    //   : 'api.mailgun.net/v3/gig-booker.com/messages';
     const sendResult = await mg.messages.create(url, messageData);
 
     console.log(sendResult); // logs response data

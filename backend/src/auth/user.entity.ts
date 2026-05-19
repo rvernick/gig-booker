@@ -18,7 +18,7 @@ import { GeographicLocation } from './geographic-location.entity';
 import { S3Media } from '../media/aws-media.entity';
 
 export enum Source {
-  CUP_OF_SUGAR = 'cup_of_sugar',
+  GIG_BOOKER = 'gig_booker',
   GOOGLE = 'google',
 }
 
@@ -31,7 +31,7 @@ export const createNewUser = (username: string, password: string, type: Source):
 const key = process.env.COLUMN_ENCRYPTION_KEY || 'your-key-here';
 
 @Entity({
-  name: 'cos_user',
+  name: 'gb_user',
 })
 @Index(['username', 'deletedOn'], { unique: true })
 export class User {
@@ -180,7 +180,7 @@ export class User {
   @Column({
     type: 'enum',
     enum: Source,
-    default: Source.CUP_OF_SUGAR,
+    default: Source.GIG_BOOKER,
     nullable: false,
   })
   source: Source;

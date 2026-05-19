@@ -68,7 +68,7 @@ import { HelpController } from './help-request/help.controller';
         type: 'postgres',
         host: configService.get('DATABASE_HOST', 'localhost'),
         port: +configService.get('DATABASE_PORT', 5432),
-        database: configService.get('DATABASE_NAME', 'cupofsugar'),
+        database: configService.get('DATABASE_NAME', 'gigbooker'),
         username: configService.get('DATABASE_USER', 'test'),
         password: configService.get('DATABASE_PASSWORD'),
         entities: [

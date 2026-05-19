@@ -68,7 +68,7 @@ export class AuthService {
       this.logger.log('info', 'attempted to create duplicate: ' + username);
       throw new UnauthorizedException();
     }
-    return this.userService.createUser(username, pass, Source.CUP_OF_SUGAR);
+    return this.userService.createUser(username, pass, Source.GIG_BOOKER);
   }
 
   async changePassword(username: string, oldPassword: string, newPassword: string): Promise<string> {

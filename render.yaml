@@ -2,7 +2,7 @@ services:
 - type: web
   runtime: node
   plan: standard
-  name: cup-of-sugar-be
+  name: gig-booker-be
   rootDir: backend
   buildCommand: npm install && npm run typeorm migration:run -- -d src/data-source.ts
   startCommand: npx @nestjs/cli start
@@ -15,29 +15,29 @@ services:
       value: "4000"
     - key: DATABASE_HOST
       fromDatabase:
-        name: cup-of-sugar-db
+        name: gig-booker-db
         property: host
     - key: DATABASE_PORT
       fromDatabase:
-        name: cup-of-sugar-db
+        name: gig-booker-db
         property: port
     - key: DATABASE_USER
       fromDatabase:
-        name: cup-of-sugar-db
+        name: gig-booker-db
         property: user
     - key: DATABASE_PASSWORD
       fromDatabase:
-        name: cup-of-sugar-db
+        name: gig-booker-db
         property: password
     - key: DATABASE_NAME
       fromDatabase:
-        name: cup-of-sugar-db
+        name: gig-booker-db
         property: database
     - key: CLIENT_URL
-      value: https://cup-of-sugar.onrender.com
-    - fromGroup: Cup of Sugar Production
+      value: https://gig-booker.onrender.com
+    - fromGroup: Gig Booker Production
 - type: web
-  name: cup-of-sugar
+  name: gig-booker
   runtime: static
   rootDir: frontend
   staticPublishPath: dist
@@ -47,13 +47,13 @@ services:
     destination: /index.html
   envVars:
     - key: BASE_URL
-      value: https://cup-of-sugar-be.onrender.com
+      value: https://gig-booker-be.onrender.com
     - key: NODE_ENV
       value: production
 
 databases:
-  - name: cup-of-sugar-db
-    databaseName: cup_of_sugar_runners
-    user: cup_of_sugar_prod
+  - name: gig-booker-db
+    databaseName: gig_booker_runners
+    user: gig_booker_prod
     plan: basic-256mb
 

@@ -273,7 +273,7 @@ export const LoginWithEmailComponent = () => {
             <Heading className="md:text-center" size="3xl">
               Log in
             </Heading>
-            <Text>Login to start using Cup of Sugar</Text>
+            <Text>Login to start using Gig Booker</Text>
           </VStack>
         </VStack>
       <VStack className="w-full">
@@ -425,7 +425,7 @@ export const LoginWithEmailComponent = () => {
         </HStack>
         <Text> </Text>
         <HStack className="self-center" space="sm">
-          <Link isExternal={true} href="https://www.cup-of-sugar.com">
+          <Link isExternal={true} href="https://www.gig-booker.com">
             <LinkText className="font-medium text-primary-700 group-hover/link:text-primary-600  group-hover/pressed:text-primary-700">Who we are</LinkText>
           </Link>
         </HStack>

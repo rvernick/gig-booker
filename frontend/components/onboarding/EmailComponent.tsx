@@ -120,7 +120,7 @@ export const EmailComponent: React.FC = () => {
     <BaseLayout>
       <VStack className="max-w-[440px] w-full" space="md">
         <Heading size="lg">EMAIL </Heading>
-        <Text>Enter your email address to sign up with Cup of Sugar</Text>
+        <Text>Enter your email address to sign up with Gig Booker</Text>
         <Input
           variant="outline"
           size="md"

@@ -36,7 +36,7 @@ export const blankUser = (): User => {
     email: null,
     mobile: '',
     pushToken: '',
-    source: 'cup_of_sugar',
+    source: 'gig_booker',
     homeLocation: null,
     photo: null,
     entryInstructions: '',

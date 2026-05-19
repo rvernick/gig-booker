@@ -88,7 +88,7 @@ export const TermsAndConditionsComponent: React.FC = () => {
         <VStack className="md:items-center" space="md">
           <VStack>
             <Heading className="text-center" size="3xl">
-              Cup of Sugar Terms of Service
+              Gig Booker Terms of Service
             </Heading>
             <Text className="text-center"> </Text>
             <Text className="text-center"></Text>

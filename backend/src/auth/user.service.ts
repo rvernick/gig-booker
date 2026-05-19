@@ -82,7 +82,7 @@ export class UserService {
   }
 
   canBypassEmailVerification(username: string): boolean {
-    return username.includes('@cup-of-sugar.com');
+    return username.includes('@gig-booker.com');
   }
 
   async createUser(username: string, password: string, type: Source, familyId: number = 0): Promise<User> {
@@ -90,7 +90,7 @@ export class UserService {
     devLog('type ' + type);
     const newUser = createNewUser(username.toLocaleLowerCase(), password, type);
     devLog('newUser:' + JSON.stringify(newUser));
-    if (newUser.source === Source.CUP_OF_SUGAR) {
+    if (newUser.source === Source.GIG_BOOKER) {
       newUser.emailVerified = this.canBypassEmailVerification(username);
       newUser.email = username;
     } else {
@@ -361,7 +361,7 @@ export class UserService {
     const email = 'rvernick@yahoo.com';
     const msg = 'Your email verification code is: ' + code + '.';
     const htmlMsg = 'Your email verification code is: ' + code + '.  ';
-    if (await sendEmail([email], 'Cup of Sugar Password Reset', msg, htmlMsg)) {
+    if (await sendEmail([email], 'Gig Booker Password Reset', msg, htmlMsg)) {
       devLog('Test email sent successfully');
       return true;
     } else {
@@ -419,7 +419,7 @@ export class UserService {
     const htmlMsg =
       'Use the following link to reset your password: <a href="' + passwordResetLink + '"> Reset Password</a>';
 
-    void sendEmail([email], 'Cup of Sugar Password Reset', msg, htmlMsg);
+    void sendEmail([email], 'Gig Booker Password Reset', msg, htmlMsg);
   }
 
   async initiateEmailVerify(user: User, email: string): Promise<void> {
@@ -443,7 +443,7 @@ export class UserService {
     const msg = 'Your email verification code is: ' + code + '.';
     const htmlMsg = 'Your email verification code is: ' + code + '.  ';
 
-    sendEmail([email], 'Cup of Sugar Verify Email', msg, htmlMsg);
+    sendEmail([email], 'Gig Booker Verify Email', msg, htmlMsg);
   }
 
   safelyGetConfig(key: string): string {
@@ -485,11 +485,11 @@ export class UserService {
 
   flagPhoto(id: number, username: string, reason: string): void {
     void sendEmail(
-      ['systems@cup-of-sugar.com'],
+      ['systems@gig-booker.com'],
       `Photo Flagged: ${id}`,
       `Photo ${id} has been flagged as inappropriate by user ${username}.  Claimed: ${reason}.  Please review and remove if necessary.`,
       '',
-      'systems@cup-of-sugar.com',
+      'systems@gig-booker.com',
     );
   }
 

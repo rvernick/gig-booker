@@ -97,7 +97,7 @@ export const EmailVerificationComponent = () => {
             <Heading className="text-center" size="3xl">
               Verify Email
             </Heading>
-            <Text className="text-center">Cup of Sugar</Text>
+            <Text className="text-center">Gig Booker</Text>
             <Text className="text-center">We want to protect your identity</Text>
             <Text className="text-center">Check your inbox and spam folder for a confirmation email</Text>
             <Text> </Text>
