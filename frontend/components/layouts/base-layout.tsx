@@ -21,7 +21,7 @@ export const BaseLayout = (props: BaseLayoutProps) => {
         className="w-full h-full"
         contentContainerStyle={{ flexGrow: 1 }}
       >
-        <HStack className="w-full h-full bg-background-0 flex-grow justify-center">
+        {/* <HStack className="w-full h-full bg-background-0 flex-grow justify-center">
             {props.image ? (
               <VStack
                 className="relative hidden md:flex h-full w-full flex-1  items-center justify-center"
@@ -51,11 +51,11 @@ export const BaseLayout = (props: BaseLayoutProps) => {
                 alt="Radial Gradient"
               />
             </VStack>
-          )}
+          )} */}
           <VStack className="md:items-center md:justify-start flex-1 w-full  p-9 md:gap-10 gap-16 md:m-auto md:w-1/2 h-full">
             {props.children}
           </VStack>
-        </HStack>
+        {/* </HStack> */}
       </ScrollView>
     </VStack>
   );

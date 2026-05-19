@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { login, remind, isMobile, loginWithVerifyCode, forget, devLog, fetchGoogleIOSClientId, remember } from '@/common/utils';
-import { baseUrl, post } from "../../common/http-utils";
+import { login, remind, isMobile, loginWithVerifyCode, forget, devLog } from '@/common/utils';
 import { router } from "expo-router";
 import * as LocalAuthentication from 'expo-local-authentication';
 import { useSession } from "@/common/ctx";
-import { useQuery } from "@tanstack/react-query";
 import { BaseScrollLayout } from "@/components/layouts/base-scroll-layout";
 import { VStack } from "@/components/ui/vstack";
 import { Heading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { HStack } from "@/components/ui/hstack";
 import { Link, LinkText } from "@/components/ui/link";
-import { useToast } from "@/components/ui/toast";
 import { FACE_ID_PASSWORD, FACE_ID_USERNAME, GOOGLE_USER_ID } from "@/common/constants";
-import { GoogleSignin, GoogleSigninButton, SignInResponse, statusCodes } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
+import { loginWithGoogleToken } from "./google-login";
 
 export const LoginComponent = () => {
   const session = useSession();
@@ -29,21 +24,7 @@ export const LoginComponent = () => {
   const [verifyAttempts, setVerifyAttempts] = useState(0);
   const [attemptingFaceIdLogin, setAttemptingFaceIdLogin] = useState(false);
 
-  const { data: googleIOSClientId } = useQuery({
-    queryKey: ['googleIOSClientId'],
-    queryFn: () => fetchGoogleIOSClientId(),
-    initialData: null,
-  });
-
-  const { data: loggedInWithVerifyCode, isFetching: helpFetching, error: helpError} = useQuery({
-      queryKey: ['loginWithVerifyCode'],
-      queryFn: () => attemptLoginUsingVerifyCodes(),
-      initialData: false,
-      refetchInterval: 1000,
-      refetchOnWindowFocus: 'always',
-      refetchOnReconnect: 'always',
-      refetchOnMount: 'always',
-    })
+  const googleClientId = process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_IOS || '';
 
   const attemptLoginUsing = (username: string, pass: string) => {
     const loginAttempt = login(username, pass, session);
@@ -172,41 +153,8 @@ export const LoginComponent = () => {
     } finally {
       setAttemptingFaceIdLogin(false);
     }
-  }
-
-  const loginWithGoogleToken = async (googleResponse: SignInResponse): Promise<string | undefined> => {
-    devLog('Google login attempt...', googleResponse);
-    const googleId = googleResponse?.data?.user.id;
-    if (!googleId) return 'Login failed: No google id in response';
-    try {
-      const payload = {
-        id: googleId,
-        name: googleResponse?.data?.user.name,
-        email: googleResponse?.data?.user.email,
-        photo: googleResponse?.data?.user.photo,
-        family_name: googleResponse?.data?.user.familyName,
-        given_name: googleResponse?.data?.user.givenName,
-        scopes: googleResponse?.data?.scopes,
-        id_token: googleResponse?.data?.idToken,
-      }
-      const response = await post('/auth/google', payload, null);
-      if (response.ok) {
-        const result = await response.json();
-        if (result.token && result.username) {
-          session.signIn(result.token, result.username);
-          remember(GOOGLE_USER_ID, googleId)
-          return undefined; // success
-        }
-        return 'Login failed: No token in response.';
-      } else {
-        const result = await response.json();
-        return result.message || 'Login failed.';
-      }
-    } catch (e: any) {
-      console.error('Google login error:', e);
-      return 'An unexpected error occurred during login.';
-    }
   };
+
 
   const signInWithGoogle = async () => {
     try {
@@ -214,7 +162,7 @@ export const LoginComponent = () => {
       const userInfo = await GoogleSignin.signIn();
       devLog('Google Sign-In success:', userInfo);
       if (userInfo.data && userInfo.data.idToken) {
-        const loginAttempt = loginWithGoogleToken(userInfo);
+        const loginAttempt = loginWithGoogleToken(session, userInfo);
         processLoginAttempt(loginAttempt, []);
       } else {
         devLog('Google sign-in failed');
@@ -273,9 +221,9 @@ export const LoginComponent = () => {
     }
 
   useEffect(() => {
-    if (googleIOSClientId) {
+    if (googleClientId) {
       GoogleSignin.configure({
-        iosClientId: googleIOSClientId,
+        iosClientId: googleClientId,
         // scopes: ['profile', 'email', 'gmail.readonly'],
       });
       if (devFastLogin) {
@@ -283,7 +231,7 @@ export const LoginComponent = () => {
         setDevFastLogin(false);
       }
     }
-  }, [googleIOSClientId]);
+  }, [googleClientId]);
 
   useEffect(() => {
     if (!canUseFaceId) {

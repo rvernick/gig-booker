@@ -8,7 +8,7 @@ import { Link, LinkText } from "@/components/ui/link";
 
 export default function Index() {
 
-  const signIn = () => { router.replace("/(sign-in-sign-up)/(sign-in)/sign-in-with-email") };
+  const signIn = () => { router.replace("/(sign-in-sign-up)/(sign-in)/sign-in") };
 
   return (
     <BaseScrollLayout>

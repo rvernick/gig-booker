@@ -1,22 +1,14 @@
-import { Drawer } from 'expo-router/drawer';
+import { Stack } from "expo-router";
 
 export default function Layout() {
   return (
-    <Drawer>
-      <Drawer.Screen
-        name="profile"
-        options={{
-          drawerLabel: 'Profile',
-          title: 'Profile',
-        }}
-      />
-      <Drawer.Screen
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="profile" options={{ title: "Profile" }} />
+      <Stack.Screen name="contacts" options={{ title: "Contacts" }} />
+      <Stack.Screen
         name="change-password"
-        options={{
-          drawerLabel: 'Password',
-          title: 'Password',
-        }}
+        options={{ title: "Password" }}
       />
-    </Drawer>
+    </Stack>
   );
 }

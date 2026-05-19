@@ -205,7 +205,7 @@ export const CreateAccountComponent: React.FC<CreateAccountComponentProps> = ({ 
               <ButtonText>Sign Up</ButtonText>
             </Button>
         </VStack>
-        <Link onPress={() => router.push("/(sign-in-sign-up)/(sign-in)/sign-in-with-email")}>
+        <Link onPress={() => router.push("/(sign-in-sign-up)/(sign-in)/sign-in")}>
           <LinkText className="font-medium text-sm text-primary-700 group-hover/link:text-primary-600">
             I have an account
           </LinkText>

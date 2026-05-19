@@ -11,7 +11,7 @@ export const baseUrl = () => {
     defaultBase = 'https://gig-booker-be.onrender.com';
   }
 
-  defaultBase = 'http://localhost:4000';
+  // defaultBase = 'http://localhost:4000';
 
   const result = process.env.BASE_URL || defaultBase;
   return ensureNoSlash(result);

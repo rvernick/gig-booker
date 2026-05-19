@@ -25,7 +25,7 @@ export default function Index() {
   //   skipIfLoggedIn();
   // }, []);
 
-  const goToSignIn = () => { router.replace('/(sign-in-sign-up)/(sign-in)/sign-in-with-email') };
+  const goToSignIn = () => { router.replace('/(sign-in-sign-up)/(sign-in)/sign-in') };
   const appStoreURL = "https://apps.apple.com/us/app/gig-booker/";  // TODO: replace with actual app store URL
 
   return (
