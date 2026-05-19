@@ -6,6 +6,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { tenMinutesInMilliseconds } from "./constants";
 import { HelpRequest } from "@/models/HelpRequest";
 import { HelpOffer } from "@/models/HelpOffer";
+import { Venue } from "@/models/Venue";
 
 export const allUsers = async (session: any, username: string): Promise<User[] | null> => {
   if (session === null) {
@@ -119,5 +120,47 @@ export const fetchOffers = async (session: any, username: string): Promise<HelpO
   } catch (e: any) {
     console.log(e.message);
     return Promise.resolve([]);
+  }
+};
+
+export const fetchAllVenues = async (session: any, username: string): Promise<Venue[]> => {
+  const jwtToken = session.jwt_token;
+  if (jwtToken == null || jwtToken.length === 0) return [];
+  try {
+    return getInternal('/venue/all', { username }, jwtToken);
+  } catch (e: any) {
+    console.log(e.message);
+    return [];
+  }
+};
+
+export const fetchFavoriteVenues = async (session: any, username: string): Promise<Venue[]> => {
+  const jwtToken = session.jwt_token;
+  if (jwtToken == null || jwtToken.length === 0) return [];
+  try {
+    return getInternal('/venue/favorites', { username }, jwtToken);
+  } catch (e: any) {
+    console.log(e.message);
+    return [];
+  }
+};
+
+export const addFavoriteVenue = async (session: any, username: string, venueId: number): Promise<void> => {
+  const jwtToken = session.jwt_token;
+  if (jwtToken == null) return;
+  try {
+    await postInternal('/venue/favorite/add', { username, venueId }, jwtToken);
+  } catch (e: any) {
+    console.log(e.message);
+  }
+};
+
+export const removeFavoriteVenue = async (session: any, username: string, venueId: number): Promise<void> => {
+  const jwtToken = session.jwt_token;
+  if (jwtToken == null) return;
+  try {
+    await postInternal('/venue/favorite/remove', { username, venueId }, jwtToken);
+  } catch (e: any) {
+    console.log(e.message);
   }
 };

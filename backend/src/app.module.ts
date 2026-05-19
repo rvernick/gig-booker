@@ -30,6 +30,16 @@ import { HelpRequest } from './help-request/help-request';
 import { HelpOffer } from './help-request/help-offer';
 import { HelpService } from './help-request/help.service';
 import { HelpController } from './help-request/help.controller';
+import { Venue } from './venue/venue.entity';
+import { VenueSocialLink } from './venue/venue-social-link.entity';
+import { VenueBookingInstructions } from './venue/venue-booking-instructions.entity';
+import { VenueBookingByPhone } from './venue/venue-booking-by-phone.entity';
+import { VenueBookingByEmail } from './venue/venue-booking-by-email.entity';
+import { VenueBookingByWebForm } from './venue/venue-booking-by-web-form.entity';
+import { VenueBookingBySnailMail } from './venue/venue-booking-by-snail-mail.entity';
+import { UserFavoriteVenue } from './venue/user-favorite-venue.entity';
+import { VenueService } from './venue/venue.service';
+import { VenueController } from './venue/venue.controller';
 
 @Module({
   imports: [
@@ -46,6 +56,14 @@ import { HelpController } from './help-request/help.controller';
       GeographicLocation,
       CoSEvent,
       CoSEventHandled,
+      Venue,
+      VenueSocialLink,
+      VenueBookingInstructions,
+      VenueBookingByPhone,
+      VenueBookingByEmail,
+      VenueBookingByWebForm,
+      VenueBookingBySnailMail,
+      UserFavoriteVenue,
     ]),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
@@ -83,13 +101,21 @@ import { HelpController } from './help-request/help.controller';
           S3Media,
           CoSEvent,
           CoSEventHandled,
+          Venue,
+          VenueSocialLink,
+          VenueBookingInstructions,
+          VenueBookingByPhone,
+          VenueBookingByEmail,
+          VenueBookingByWebForm,
+          VenueBookingBySnailMail,
+          UserFavoriteVenue,
         ],
         synchronize: configService.get('DATABASE_HOST') === 'localhost',
       }),
     }),
   ],
   exports: [AuthService, UserService, EventService, EventHandlingService, HelpService],
-  controllers: [AppController, AuthController, UserController, HelpController],
+  controllers: [AppController, AuthController, UserController, HelpController, VenueController],
   providers: [
     AppService,
     // RunService, {
@@ -102,6 +128,7 @@ import { HelpController } from './help-request/help.controller';
     S3MediaService,
     EventService,
     EventHandlingService,
+    VenueService,
   ],
 })
 export class AppModule {}
