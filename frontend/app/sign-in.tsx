@@ -6,7 +6,7 @@ import { Text } from 'react-native'
 export default function SignIn() {
 
   const goToSignIn = () => {
-    router.replace('/(sign-in-sign-up)/(sign-in)/sign-in-with-email');
+    router.replace('/(sign-in-sign-up)/(sign-in)/sign-in');
   };
 
   useEffect(() => {

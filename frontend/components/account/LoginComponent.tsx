@@ -12,6 +12,7 @@ import { GoogleLogin, GoogleOAuthProvider, useGoogleOneTapLogin } from '@react-o
 import { jwtDecode } from 'jwt-decode';
 import { loginWithGoogleToken } from "./google-login";
 import { SignInResponse } from "@react-native-google-signin/google-signin";
+import { isLoggedIn } from "@/common/http-utils";
 
 export const LoginComponent = () => {
   const session = useSession();
@@ -23,7 +24,19 @@ export const LoginComponent = () => {
     router.replace('/(sign-in-sign-up)/(sign-in)/sign-in-with-email');
   }
 
+  const goToHomeIfHasJWT = async () => {
+    if (await isLoggedIn(session)) {
+      router.replace({
+        pathname: '/logging-in',
+        params: { jwt_token: session.jwt_token },
+      });
+    } else {
+      console.log('No JWT token found, redirecting to home');
+    }
+  }
+
   useEffect(() => {
+    goToHomeIfHasJWT();
     const scriptTag = document.createElement('script');
     scriptTag.src = 'https://accounts.google.com/gsi/client';
     scriptTag.async = true;
