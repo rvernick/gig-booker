@@ -44,13 +44,33 @@ export class VenueService {
     @InjectRepository(User) private readonly userRepo: Repository<User>,
   ) {}
 
-  async all(): Promise<Venue[]> {
-    return this.venueRepo.find({ order: { updatedOn: 'DESC' } });
+  async all(username: string): Promise<Venue[]> {
+    const user = await this.userRepo.findOne({ where: { username } });
+    if (!user) throw new NotFoundException('User not found');
+
+    const { entities, raw } = await this.venueRepo
+      .createQueryBuilder('venue')
+      .leftJoinAndSelect('venue.location', 'location')
+      .leftJoin(UserFavoriteVenue, 'fav', 'fav.venueId = venue.id AND fav.userId = :userId', { userId: user.id })
+      .addSelect('fav.id IS NOT NULL', 'is_favorite')
+      .orderBy('venue.name', 'ASC')
+      .getRawAndEntities();
+
+    entities.forEach((venue, i) => {
+      const isFav = raw[i]?.is_favorite;
+      venue.isFavorite = isFav === true || isFav === 't';
+    });
+
+    return entities;
   }
 
-  async byId(id: number): Promise<Venue> {
+  async byId(id: number, username?: string): Promise<Venue> {
     const venue = await this.venueRepo.findOne({ where: { id } });
     if (!venue) throw new NotFoundException('Venue not found');
+    if (username) {
+      const favorites = await this.getFavorites(username);
+      if (favorites.some((favorite) => favorite.id === venue.id)) this.asFavorite(venue);
+    }
     return venue;
   }
 
@@ -149,11 +169,16 @@ export class VenueService {
     return this.bookingRepo.save(record);
   }
 
+  asFavorite(venue: Venue): Venue {
+    venue.isFavorite = true;
+    return venue;
+  }
+
   async getFavorites(username: string): Promise<Venue[]> {
     const user = await this.userRepo.findOne({ where: { username } });
     if (!user) throw new NotFoundException('User not found');
     const favorites = await this.favoriteRepo.find({ where: { userId: user.id } });
-    return favorites.map((f) => f.venue);
+    return favorites.map((f) => this.asFavorite(f.venue));
   }
 
   async isFavorite(username: string, venueId: number): Promise<boolean> {

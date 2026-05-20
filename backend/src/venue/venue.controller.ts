@@ -73,13 +73,13 @@ export class VenueController {
   @UseGuards(AuthGuard)
   @Get('all')
   all(@Query('username') username: string): Promise<Venue[]> {
-    return this.venueService.all();
+    return this.venueService.all(username);
   }
 
   @UseGuards(AuthGuard)
   @Get('by-id')
   byId(@Query('id') id: number, @Query('username') username: string): Promise<Venue> {
-    return this.venueService.byId(Number(id));
+    return this.venueService.byId(Number(id), username);
   }
 
   @UseGuards(AuthGuard)

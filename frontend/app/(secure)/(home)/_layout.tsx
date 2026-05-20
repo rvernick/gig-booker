@@ -1,10 +1,7 @@
-import { useState } from "react";
 import { Drawer } from "expo-router/drawer";
 import {
   type DrawerContentComponentProps,
 } from "@react-navigation/drawer";
-import { useRouter, usePathname } from "expo-router";
-import { isMobileSize } from "@/common/utils";
 import {
   SettingsIcon,
   LogOutIcon,

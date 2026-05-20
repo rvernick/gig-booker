@@ -19,10 +19,12 @@ import { BookingInstructionsEditor } from "@/components/venues/BookingInstructio
 
 import { useSession } from "@/common/ctx";
 import { ensureString, isDevelopment } from "@/common/utils";
-import { fetchVenueById, upsertVenue } from "@/common/data-utils";
+import { fetchVenueById } from "@/common/data-utils";
 import type { CoSLocation } from "@/models/CoSLocation";
 import { prLocationFrom } from "@/models/CoSLocation";
 import type { Venue, VenueSize } from "@/models/Venue";
+import { addFavoriteVenue, removeFavoriteVenue, upsertVenue } from "@/common/venue-utils";
+import { Icon, StarIcon } from "../ui/icon";
 
 type Props = {
   venueId: number;
@@ -54,7 +56,9 @@ export function VenueDetails(props: Props) {
   const [activeTab, setActiveTab] = useState<Tab>("general");
   const [id, setId] = useState<number>(0);
   const [name, setName] = useState<string>("");
+  const [isFavorite, setIsFavorite] = useState(false);
   const [location, setLocation] = useState<CoSLocation | null>(null);
+  const [locationName, setLocationName] = useState("");
   const [locationText, setLocationText] = useState<string>("");
   const [website, setWebsite] = useState<string>("");
   const [bookingContact, setBookingContact] = useState<string>("");
@@ -70,8 +74,8 @@ export function VenueDetails(props: Props) {
   const isNew = props.venueId === 0;
 
   const title = useMemo(
-    () => (isNew ? "New Venue" : locationText || name || "Venue"),
-    [isNew, locationText, name],
+    () => (isNew ? "New Venue" : locationName || name || "Venue"),
+    [isNew, locationName, name],
   );
 
   const canSave = !isSaving && (location != null || !isNew);
@@ -94,8 +98,10 @@ export function VenueDetails(props: Props) {
 
     const setFromVenue = (venue: Venue) => {
       setId(venue.id ?? 0);
+      setIsFavorite(venue && venue.isFavorite);
       setName(venue.name ?? "");
       setLocation(venue.location ?? null);
+      setLocationName(venue.location?.displayName || '');
       setLocationText(
         venue.location?.formattedAddress ?? venue.location?.displayName ?? "",
       );
@@ -199,10 +205,36 @@ export function VenueDetails(props: Props) {
     }
   };
 
+  const toggleFavorite = async () => {
+    if (isFavorite) {
+      setIsFavorite(false);
+      await removeFavoriteVenue(session, username, id);
+    } else {
+      setIsFavorite(true);
+      await addFavoriteVenue(session, username, id);
+    }
+    queryClient.invalidateQueries({ queryKey: ['venue-favorites', username] });
+    queryClient.invalidateQueries({ queryKey: ['venues', username] });
+  };
+
   return (
     <BaseScrollLayout>
       <VStack className="gap-4 w-full">
-        <Heading size="xl">{title}</Heading>
+        <HStack className="w-full justify-between">
+          <Heading size="xl">{title}</Heading>
+          {!isNew && <Pressable
+              onPress={toggleFavorite}
+              accessibilityLabel={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+              className="p-2"
+            >
+            <Icon
+              as={StarIcon}
+              size={isFavorite ? "lg" : "md"}
+              color={isFavorite ? '#f59e0b' : '#9ca3af'}
+              fill={isFavorite ? '#f59e0b' : 'none'}
+            />
+          </Pressable>}
+        </HStack>
         {isDevelopment() && (
           <Text className="text-typography-600">
             {isNew ? "Create a new venue." : `Venue ID: ${id}`}

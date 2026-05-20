@@ -13,5 +13,6 @@ export interface Venue {
   musicTypes: string[];
   createdOn?: string;
   updatedOn?: string;
+  isFavorite: boolean;
 }
 

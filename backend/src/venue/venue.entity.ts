@@ -59,6 +59,8 @@ export class Venue {
   @OneToOne(() => VenueBookingInstructions, (instructions) => instructions.venue, { eager: false })
   bookingInstructions: VenueBookingInstructions | null;
 
+  isFavorite: boolean = false;
+
   @CreateDateColumn({ name: 'created_on' })
   createdOn: Date;
 
