@@ -361,24 +361,6 @@ export const uploadBandPhoto = async (
   return response.json() as Promise<Band>;
 };
 
-export const fetchVenues = async (
-  session: any,
-  username: string,
-): Promise<Venue[]> => {
-  const jwtToken = session.jwt_token;
-  if (jwtToken == null || jwtToken.length === 0) {
-    return Promise.resolve([]);
-  }
-
-  try {
-    const result = await getInternal("/venue/all", { username }, jwtToken);
-    return result ?? [];
-  } catch (e: any) {
-    console.log(e.message);
-    return Promise.resolve([]);
-  }
-};
-
 export const fetchVenueById = async (
   session: any,
   username: string,
@@ -658,6 +640,83 @@ export const upsertVenueBookingInstructions = async (
   } catch (e: any) {
     console.log(e.message);
     return Promise.resolve(null);
+  }
+};
+
+export const fetchVenues = async (
+  session: any,
+  username: string,
+): Promise<Venue[]> => {
+  return fetchAllVenues(session, username);
+};
+
+export const fetchAllVenues = async (
+  session: any,
+  username: string,
+): Promise<Venue[]> => {
+  const jwtToken = session.jwt_token;
+  if (jwtToken == null || jwtToken.length === 0) {
+    return Promise.resolve([]);
+  }
+
+  try {
+    const result = await getInternal("/venue/all", { username }, jwtToken);
+    return result ?? [];
+  } catch (e: any) {
+    console.log(e.message);
+    return Promise.resolve([]);
+  }
+};
+
+export const fetchFavoriteVenues = async (
+  session: any,
+  username: string,
+): Promise<Venue[]> => {
+  const jwtToken = session.jwt_token;
+  if (jwtToken == null || jwtToken.length === 0) {
+    return Promise.resolve([]);
+  }
+
+  try {
+    const result = await getInternal("/venue/favorites", { username }, jwtToken);
+    return result ?? [];
+  } catch (e: any) {
+    console.log(e.message);
+    return Promise.resolve([]);
+  }
+};
+
+export const addFavoriteVenue = async (
+  session: any,
+  username: string,
+  venueId: number,
+): Promise<void> => {
+  const jwtToken = session.jwt_token;
+  if (jwtToken == null || jwtToken.length === 0 || venueId <= 0) {
+    return;
+  }
+
+  try {
+    await postInternal("/venue/favorite/add", { username, venueId }, jwtToken);
+  } catch (e: any) {
+    console.log(e.message);
+  }
+};
+
+export const removeFavoriteVenue = async (
+  session: any,
+  username: string,
+  venueId: number,
+): Promise<void> => {
+  const jwtToken = session.jwt_token;
+  if (jwtToken == null || jwtToken.length === 0 || venueId <= 0) {
+    return;
+  }
+
+  try {
+    await postInternal("/venue/favorite/remove", { username, venueId }, jwtToken);
+  } catch (e: any) {
+    console.log(e.message);
   }
 };
 

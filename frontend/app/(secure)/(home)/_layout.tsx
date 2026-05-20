@@ -11,12 +11,9 @@ import { isMobileSize } from "@/common/utils";
 import {
   SettingsIcon,
   LogOutIcon,
-  CrossIcon,
   MusicIcon,
   MapPinIcon,
   CalendarIcon,
-  PanelLeftCloseIcon,
-  PanelLeftOpenIcon,
   ChevronDownIcon,
   ChevronRightIcon,
 } from "lucide-react-native";
@@ -28,7 +25,7 @@ function isSettingsPath(pathname: string): boolean {
   return SETTINGS_SUB_ROUTES.some((sub) => pathname.endsWith(`/${sub}`));
 }
 
-function CustomDrawerContent(props: DrawerContentComponentProps) {
+export default function CustomDrawerContent(props: DrawerContentComponentProps) {
   const router = useRouter();
   const pathname = usePathname();
   const mobile = isMobileSize();

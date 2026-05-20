@@ -25,6 +25,7 @@ import { VenueBookingByWebForm } from './venue/venue-booking-by-web-form.entity'
 import { VenueBookingBySnailMail } from './venue/venue-booking-by-snail-mail.entity';
 import { Gig } from './gig/gig.entity';
 import { RecurringGig } from './gig/recurring-gig.entity';
+import { UserFavoriteVenue } from './venue/user-favorite-venue.entity';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -32,7 +33,7 @@ export const AppDataSource = new DataSource({
   host: process.env.DATABASE_HOST,
   username: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE_NAME,
+  database: process.env.DATABASE_NAME || 'gigbooker',
   synchronize: process.env.DATABASE_HOST === 'localhost',
   logging: false,
   entities: [
@@ -60,6 +61,7 @@ export const AppDataSource = new DataSource({
     VenueBookingBySnailMail,
     Gig,
     RecurringGig,
+    UserFavoriteVenue,
   ],
   migrations: ['./migrations/*'],
   subscribers: [],

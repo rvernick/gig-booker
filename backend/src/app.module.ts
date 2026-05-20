@@ -53,6 +53,7 @@ import { GigService } from './gig/gig.service';
 import { RecurringGig } from './gig/recurring-gig.entity';
 import { RecurringGigController } from './gig/recurring-gig.controller';
 import { RecurringGigService } from './gig/recurring-gig.service';
+import { UserFavoriteVenue } from './venue/user-favorite-venue.entity';
 
 @Module({
   imports: [
@@ -81,6 +82,7 @@ import { RecurringGigService } from './gig/recurring-gig.service';
       VenueBookingBySnailMail,
       Gig,
       RecurringGig,
+      UserFavoriteVenue,
     ]),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
@@ -103,7 +105,7 @@ import { RecurringGigService } from './gig/recurring-gig.service';
         type: 'postgres',
         host: configService.get('DATABASE_HOST', 'localhost'),
         port: +configService.get('DATABASE_PORT', 5432),
-        database: configService.get('DATABASE_NAME', 'cupofsugar'),
+        database: configService.get('DATABASE_NAME', 'gigbooker'),
         username: configService.get('DATABASE_USER', 'test'),
         password: configService.get('DATABASE_PASSWORD'),
         entities: [
@@ -131,6 +133,7 @@ import { RecurringGigService } from './gig/recurring-gig.service';
           VenueBookingBySnailMail,
           Gig,
           RecurringGig,
+          UserFavoriteVenue,
         ],
         synchronize: configService.get('DATABASE_HOST') === 'localhost',
       }),

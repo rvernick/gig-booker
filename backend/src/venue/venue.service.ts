@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Venue } from './venue.entity';
-import { GeographicLocation } from '../auth/geographic-location.entity';
+import { GeographicLocation } from '../common/geographic-location.entity';
 import { VenueBookingInstructions } from './venue-booking-instructions.entity';
 import { VenueBookingByPhone } from './venue-booking-by-phone.entity';
 import { VenueBookingByEmail } from './venue-booking-by-email.entity';
@@ -137,8 +140,7 @@ export class VenueService {
     if (existing && existing.type !== args.type) {
       await this.bookingRepo.delete(existing.id);
     }
-    const record =
-      existing && existing.type === args.type ? existing : this.buildTypedInstructions(args.type);
+    const record = existing && existing.type === args.type ? existing : this.buildTypedInstructions(args.type);
     record.venueId = args.venueId;
     record.generalNotes = args.generalNotes ?? null;
     record.notes = args.notes ?? null;
@@ -179,10 +181,14 @@ export class VenueService {
 
   private buildTypedInstructions(type: BookingMethodType): VenueBookingInstructions {
     switch (type) {
-      case BookingMethodType.PHONE: return new VenueBookingByPhone();
-      case BookingMethodType.EMAIL: return new VenueBookingByEmail();
-      case BookingMethodType.WEB_FORM: return new VenueBookingByWebForm();
-      case BookingMethodType.SNAIL_MAIL: return new VenueBookingBySnailMail();
+      case BookingMethodType.PHONE:
+        return new VenueBookingByPhone();
+      case BookingMethodType.EMAIL:
+        return new VenueBookingByEmail();
+      case BookingMethodType.WEB_FORM:
+        return new VenueBookingByWebForm();
+      case BookingMethodType.SNAIL_MAIL:
+        return new VenueBookingBySnailMail();
     }
   }
 
