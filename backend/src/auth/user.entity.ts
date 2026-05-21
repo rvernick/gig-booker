@@ -8,17 +8,20 @@ import {
   Index,
   ManyToOne,
   JoinColumn,
+  OneToMany,
   OneToOne,
   VirtualColumn,
 } from 'typeorm';
 import { EncryptionTransformer } from 'typeorm-encrypted';
 import * as bcrypt from 'bcrypt';
 import { Household as Household } from './household.entity';
-import { GeographicLocation } from './geographic-location.entity';
+import { GeographicLocation } from '../common/geographic-location.entity';
 import { S3Media } from '../media/aws-media.entity';
+import { BandMember } from '../band/band-member.entity';
+import { SocialLink } from '../social/social-link.entity';
 
 export enum Source {
-  CUP_OF_SUGAR = 'cup_of_sugar',
+  GIG_BOOKER = 'gig_booker',
   GOOGLE = 'google',
 }
 
@@ -30,9 +33,7 @@ export const createNewUser = (username: string, password: string, type: Source):
 
 const key = process.env.COLUMN_ENCRYPTION_KEY || 'your-key-here';
 
-@Entity({
-  name: 'cos_user',
-})
+@Entity({ name: 'gb_user' })
 @Index(['username', 'deletedOn'], { unique: true })
 export class User {
   constructor(username: string, pass: string, type: Source) {
@@ -157,6 +158,12 @@ export class User {
   })
   instagramLink: string | null;
 
+  @OneToMany(() => SocialLink, (link) => link.user, { eager: false })
+  socialLinks: SocialLink[];
+
+  @OneToMany(() => BandMember, (membership) => membership.user, { eager: false })
+  bandMemberships: BandMember[];
+
   @OneToOne(() => GeographicLocation, {
     nullable: true,
     cascade: false,
@@ -180,7 +187,7 @@ export class User {
   @Column({
     type: 'enum',
     enum: Source,
-    default: Source.CUP_OF_SUGAR,
+    default: Source.GIG_BOOKER,
     nullable: false,
   })
   source: Source;
@@ -221,8 +228,9 @@ export class User {
 
   @DeleteDateColumn({
     name: 'deleted_on',
+    nullable: true,
   })
-  deletedOn: boolean;
+  deletedOn: Date | null;
 
   @CreateDateColumn({
     name: 'created_on',

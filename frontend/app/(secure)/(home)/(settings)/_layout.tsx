@@ -1,22 +1,31 @@
-import { Drawer } from 'expo-router/drawer';
+import { tabBarIconSize } from "@/common/constants";
+import { Tabs } from "expo-router";
+import { KeyRoundIcon, NotebookTabsIcon, UserIcon } from "lucide-react-native";
 
 export default function Layout() {
   return (
-    <Drawer>
-      <Drawer.Screen
+    <Tabs initialRouteName="profile">
+      <Tabs.Screen
         name="profile"
         options={{
-          drawerLabel: 'Profile',
           title: 'Profile',
+          tabBarIcon: (props) => <UserIcon size={tabBarIconSize} color={props.color} />,
         }}
       />
-      <Drawer.Screen
+      <Tabs.Screen
+        name="contacts"
+        options={{
+          title: 'Contacts',
+          tabBarIcon: (props) => <NotebookTabsIcon size={tabBarIconSize} color={props.color} />,
+        }}
+      />
+      <Tabs.Screen
         name="change-password"
         options={{
-          drawerLabel: 'Password',
-          title: 'Password',
+          title: 'Change Password',
+          tabBarIcon: (props) => <KeyRoundIcon size={tabBarIconSize} color={props.color} />,
         }}
       />
-    </Drawer>
+      </Tabs>
   );
 }

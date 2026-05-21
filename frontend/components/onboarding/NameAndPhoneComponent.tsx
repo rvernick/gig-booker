@@ -3,7 +3,6 @@ import { useGlobalContext } from "../../common/GlobalContext";
 import { ensureString, forget, isValidPhone, strippedPhone, fetchUser, devLog } from '../../common/utils';
 import { router } from "expo-router";
 import { useSession } from "@/common/ctx";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { BaseScrollLayout } from "../layouts/base-scroll-layout";
 import { Spinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
@@ -11,12 +10,11 @@ import { Button, ButtonText } from "@/components/ui/button";
 import { VStack } from "@/components/ui/vstack";
 import { Input, InputField } from "@/components/ui/input";
 import { HStack } from "@/components/ui/hstack";
-import { blankUser } from "@/models/User";
 import ProfileController from "../settings/ProfileController";
+import { User } from "@/models/User";
 
 export const NameAndPhoneComponent: React.FC = () => {
   const session = useSession();
-  const queryClient = useQueryClient();
   const username = session.username ? session.username : '';
   const appContext  = useGlobalContext();
   appContext.setSession(session);
@@ -24,24 +22,11 @@ export const NameAndPhoneComponent: React.FC = () => {
 
   const controller = new ProfileController(appContext);
 
-  const { status, data, error, isFetching } = useQuery({
-    queryKey: ['user', username],
-    queryFn: () => fetchUser(session, username),
-    initialData: blankUser,
-    refetchOnWindowFocus: 'always',
-    refetchOnReconnect: 'always',
-    refetchOnMount: 'always',
-  });
-
-  const invalidateUser = () => {
-    devLog('Invalidate user: ' + username);
-    queryClient.removeQueries({queryKey: ['user', username]});
-    forget("ff.preferences");
-  }
-
-  const [firstName, setEnteredFirstName] = useState(ensureString(data?.firstName));
-  const [lastName, setEnteredLastName] = useState(ensureString(data?.lastName));
-  const [mobile, setEnteredMobile] = useState(ensureString(data?.mobile));
+  const [firstName, setEnteredFirstName] = useState(ensureString(''));
+  const [lastName, setEnteredLastName] = useState(ensureString(''));
+  const [mobile, setEnteredMobile] = useState(ensureString(''));
+  const [user, setUser] = useState<User | null>(null);
+  const [isFetching, setIsFetching] = useState(true);
 
   const updateFirstName = function(newText: string) {
     setEnteredFirstName(newText);
@@ -74,7 +59,7 @@ export const NameAndPhoneComponent: React.FC = () => {
   }
 
   const updateAccount = async function() {
-    if (!validate() || data == null) {
+    if (!validate() || user == null) {
       console.log('Not valid');
       return;
     }
@@ -84,26 +69,27 @@ export const NameAndPhoneComponent: React.FC = () => {
       firstName,
       lastName,
       mobile,
-      data.homeLocation ? data.homeLocation : null,
+      user.homeLocation ? user.homeLocation : null,
       ''
     );
     if (response === '') {
-      router.replace('/(secure)/(home)/(help-requests)/requests')
+      router.replace('/(secure)/(home)/(bands)')
     } else {
       setMobileErrorMessage(response);
     }
   };
 
-  const userUpdated = async () => {
-    syncUser();
-  }
-
   const syncUser = async () => {
-    setEnteredFirstName(ensureString(data?.firstName));
-    setEnteredLastName(ensureString(data?.lastName));
-    setEnteredMobile(ensureString(data?.mobile));
-    devLog('User ', JSON.stringify(data));
-    devLog('User source: ', data?.source);
+    if (session && session.username) {
+      const fetchedUser = await fetchUser(session, session.username);
+      setUser(fetchedUser);
+      setEnteredFirstName(ensureString(fetchedUser?.firstName));
+      setEnteredLastName(ensureString(fetchedUser?.lastName));
+      setEnteredMobile(ensureString(fetchedUser?.mobile));
+      devLog('User ', JSON.stringify(fetchedUser));
+      devLog('User source: ', fetchedUser?.source);
+      setIsFetching(false);
+    }
   }
 
   const phoneFormat = (phoneWithEverything: string) => {
@@ -125,11 +111,12 @@ export const NameAndPhoneComponent: React.FC = () => {
 
   useEffect(() => {
     try {
-      userUpdated();
+      syncUser();
     } catch (error) {
       console.error('Error updating user', error);
+      setIsFetching(false);
     }
-  }, [data, isFetching]);
+  }, [session]);
 
   if (isFetching) return <Spinner size="large"/>;
 

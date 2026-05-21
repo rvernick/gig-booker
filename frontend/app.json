@@ -1,19 +1,19 @@
 {
   "expo": {
-    "name": "Cup of Sugar",
-    "slug": "cup-of-sugar",
-    "owner": "cup-of-sugar",
+    "name": "Gig Booker",
+    "slug": "gig-booker",
+    "owner": "gig-booker",
     "version": "1.0.1",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
-    "scheme": "com.cup-of-sugar",
+    "scheme": "com.gig-booker",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.cup-of-sugar.app",
+      "bundleIdentifier": "com.gig-booker.app",
       "associatedDomains": [
-        "applinks:app.cup-of-sugar.com"
+        "applinks:app.gig-booker.com"
       ],
       "buildNumber": "6",
       "infoPlist": {
@@ -55,21 +55,21 @@
         "expo-secure-store",
         {
           "configureAndroidBackup": true,
-          "faceIDPermission": "Allow Cup of Sugar to access your Face ID biometric data."
+          "faceIDPermission": "Allow Gig Booker to access your Face ID biometric data."
         }
       ],
       [
         "expo-image-picker",
         {
-          "photosPermission": "Allow Cup of Sugar access to your photos to let you share them with your friends.",
-          "cameraPermission": "Allow Cup of Sugar access to your camera to take photos and videos."
+          "photosPermission": "Allow Gig Booker access to your photos to let you share them with your friends.",
+          "cameraPermission": "Allow Gig Booker access to your camera to take photos and videos."
         }
       ],
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow Cup of Sugar to access your camera",
-          "microphonePermission": "Allow Cup of Sugar to access your microphone",
+          "cameraPermission": "Allow Gig Booker to access your camera",
+          "microphonePermission": "Allow Gig Booker to access your microphone",
           "recordAudioAndroid": true,
           "barcodeScannerEnabled": false
         }

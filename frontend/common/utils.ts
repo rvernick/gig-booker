@@ -283,17 +283,6 @@ export const googleMapsLinkForPlace = (placeId: string): string => {
   return `https://www.google.com/maps/place/?q=place_id:${placeId}`;
 };
 
-export const fetchGoogleIOSClientId = async (): Promise<string | null> => {
-  try {
-    const parameters = {};
-    return getInternal("/user/google-ios-client-id", parameters, "");
-  } catch (e: any) {
-    console.log("error in fetchGoogleIOSClientId " + e.message);
-    return null;
-  }
-};
-
-
 export const pause = (): Promise<void> => {
   return new Promise(resolve => {
     setTimeout(resolve, 400);

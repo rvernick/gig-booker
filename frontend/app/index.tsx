@@ -25,8 +25,8 @@ export default function Index() {
   //   skipIfLoggedIn();
   // }, []);
 
-  const goToSignIn = () => { router.replace('/(sign-in-sign-up)/(sign-in)/sign-in-with-email') };
-  const appStoreURL = "https://apps.apple.com/us/app/cup-of-sugar/";  // TODO: replace with actual app store URL
+  const goToSignIn = () => { router.replace('/(sign-in-sign-up)/(sign-in)/sign-in') };
+  const appStoreURL = "https://apps.apple.com/us/app/gig-booker/";  // TODO: replace with actual app store URL
 
   return (
     <BaseLayout>
@@ -40,7 +40,7 @@ export default function Index() {
         <VStack className="md:items-center" space="md">
           <VStack>
             <Heading className="text-center" size="3xl">
-              Cup of Sugar
+              Gig Booker
             </Heading>
             <Text className="text-center"> </Text>
             <Text className="text-center"></Text>
@@ -65,7 +65,7 @@ export default function Index() {
             </Pressable>
           )}
           <Text> </Text>
-          <Link isExternal={true} href="https://www.cup-of-sugar.com">
+          <Link isExternal={true} href="https://www.gig-booker.com">
             <LinkText size="lg">Who we are</LinkText>
           </Link>
         </VStack>

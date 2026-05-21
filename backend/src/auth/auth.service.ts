@@ -28,24 +28,24 @@ export class AuthService {
   }
 
   async googleSignIn(googleSignInResponse: GoogleLoginResponse): Promise<{ access_token: string; user: User }> {
-    if (
-      googleSignInResponse.type != 'success' ||
-      googleSignInResponse.email == null ||
-      googleSignInResponse.email.trim().length === 0
-    ) {
+    if (googleSignInResponse.email == null || googleSignInResponse.email.trim().length === 0) {
+      this.logger.log('info', 'Invalid response: ', googleSignInResponse);
       throw new UnauthorizedException(
         `Invalid google sign in response: ${googleSignInResponse.type} for: ${googleSignInResponse.email}`,
       );
     }
     let user = await this.userService.findUsername(googleSignInResponse.email);
     if (user == null) {
-      user = await this.userService.createUser(googleSignInResponse.email, '', Source.GOOGLE);
-      user.emailVerified = true;
-      user.googleIdToken = googleSignInResponse.id_token;
-      user.googleId = googleSignInResponse.id;
-      user.firstName = googleSignInResponse.given_name;
-      user.lastName = googleSignInResponse.family_name;
-      user.googlePhotoUrl = ensureString(googleSignInResponse.photo);
+      this.logger.log('info', 'creating new user for: ', googleSignInResponse.email);
+      const createdUser = await this.userService.createUser(googleSignInResponse.email, '', Source.GOOGLE);
+      createdUser.googleIdToken = googleSignInResponse.id_token;
+      createdUser.googleId = googleSignInResponse.id;
+      createdUser.firstName = googleSignInResponse.given_name;
+      createdUser.lastName = googleSignInResponse.family_name;
+      createdUser.googlePhotoUrl = ensureString(googleSignInResponse.photo);
+      user = await this.userService.save(createdUser);
+    } else {
+      this.logger.log('info', 'Google login for: ', user.username);
     }
     return this.createSignInResponse(user);
   }
@@ -68,7 +68,7 @@ export class AuthService {
       this.logger.log('info', 'attempted to create duplicate: ' + username);
       throw new UnauthorizedException();
     }
-    return this.userService.createUser(username, pass, Source.CUP_OF_SUGAR);
+    return this.userService.createUser(username, pass, Source.GIG_BOOKER);
   }
 
   async changePassword(username: string, oldPassword: string, newPassword: string): Promise<string> {

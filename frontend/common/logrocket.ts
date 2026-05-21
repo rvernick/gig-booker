@@ -1,7 +1,7 @@
 import LogRocket from 'logrocket';
 
 export const initializeLogRocketWeb = () => {
-  LogRocket.init('/cup-of-sugar');  // TODO: create log rocket account and link here
+  LogRocket.init('/gig-booker');  // TODO: create log rocket account and link here
 }
 
 export const initializeLogRocketMobile = () => {
@@ -17,7 +17,7 @@ export const identifyLogRocketWeb = (username: string, firstName: string, lastNa
   try {
     initializeLogRocketWeb();
     const name = firstName + ' ' + lastName;
-    LogRocket.identify('CUP_OF_SUGAR_USER', {
+    LogRocket.identify('GIG_BOOKER_USER', {
       name: name,
       email: username,
 

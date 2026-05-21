@@ -14,16 +14,16 @@ export default function Index() {
       <VStack className="max-w-[440px] w-full" space="md">
         <VStack className="md:items-center" space="md">
           <Heading className="text-center" size="3xl">
-            Cup of Sugar Support
+            Gig Booker Support
           </Heading>
-          <Text className="text-center">Cup of Sugar wants you to have the best experience possible</Text>
-          <Text className="text-center">If you need any help, contact: info@cup-of-sugar.com</Text>
+          <Text className="text-center">Gig Booker wants you to have the best experience possible</Text>
+          <Text className="text-center">If you need any help, contact: info@gig-booker.com</Text>
           <Text> </Text>
           <Text> </Text>
           <Button action="primary" onPress={signIn} accessibilityLabel="Get Started" accessibilityHint="Sign In">
             <ButtonText>Get Started</ButtonText>
           </Button>
-          <Link isExternal={true} href="https://www.cup-of-sugar.com">
+          <Link isExternal={true} href="https://www.gig-booker.com">
             <LinkText className="font-medium text-primary-700 group-hover/link:text-primary-600  group-hover/pressed:text-primary-700">Who we are</LinkText>
           </Link>
 

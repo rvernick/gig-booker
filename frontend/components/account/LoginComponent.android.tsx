@@ -304,7 +304,7 @@ export const LoginComponent = () => {
             <Heading className="md:text-center" size="3xl">
               Log in
             </Heading>
-            <Text>Login to Cup of Sugar</Text>
+            <Text>Login to Gig Booker</Text>
           </VStack>
         </VStack>
       <VStack className="w-full">

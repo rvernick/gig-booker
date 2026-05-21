@@ -8,7 +8,7 @@ import {
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { ensureString } from './utils';
 
-const photoBucketName = 'cup-of-sugar-profile-photos';
+const photoBucketName = 'gig-booker-profile-photos';
 
 const s3Client = new S3Client({
   region: 'us-east-2',

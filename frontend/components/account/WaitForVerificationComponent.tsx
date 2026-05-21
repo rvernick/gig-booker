@@ -99,7 +99,7 @@ export const WaitForVerificationComponent = () => {
               Verify Email
             </Heading>
             <HStack className="justify-center">
-              <Heading size="lg">Cup of Sugar </Heading>
+              <Heading size="lg">Gig Booker </Heading>
             </HStack>
             <Text className="text-center"></Text>
             <Text className="text-center">Neighbors helping each other at the click of a button</Text>

@@ -61,8 +61,11 @@ export class S3Media {
   })
   urlExpires: Date;
 
-  @DeleteDateColumn()
-  deletedOn: boolean;
+  @DeleteDateColumn({
+    name: 'deleted_on',
+    nullable: true,
+  })
+  deletedOn: Date | null;
 
   @CreateDateColumn()
   createdOn: Date;

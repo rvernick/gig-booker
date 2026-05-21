@@ -6,11 +6,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './auth/user.entity';
 import { Household } from './auth/household.entity';
-import { GeographicLocation } from './auth/geographic-location.entity';
+import { GeographicLocation } from './common/geographic-location.entity';
 import { OAuthVerify } from './auth/oauth-verify.entity';
 import { EmailVerify } from './auth/email-verify.entity';
 import { S3Media } from './media/aws-media.entity';
-import { CoSEventHandled } from './event-handling/event-handled.entity';
+import { GBEventHandled } from './event-handling/event-handled.entity';
 import { HttpModule } from '@nestjs/axios';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './auth/constants';
@@ -23,29 +23,66 @@ import { EventService } from './event/event.service';
 // import { AuthGuard } from './auth/auth.guard';
 import { S3MediaService } from './media/aws-media.service';
 import { PasswordReset } from './auth/password-reset.entity';
-import { CoSEvent } from './event/event.entity';
+import { GBEvent } from './event/event.entity';
 import { EventHandlingService } from './event-handling/event-handling.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HelpRequest } from './help-request/help-request';
 import { HelpOffer } from './help-request/help-offer';
 import { HelpService } from './help-request/help.service';
 import { HelpController } from './help-request/help.controller';
+import { ElevenService } from './eleven-labs/eleven.service';
+import { ElevenController } from './eleven-labs/eleven.controller';
+import { Band } from './band/band.entity';
+import { BandMember } from './band/band-member.entity';
+import { BandSocialLink } from './band/band-social-link.entity';
+import { SocialLink } from './social/social-link.entity';
+import { Venue } from './venue/venue.entity';
+import { VenueSocialLink } from './venue/venue-social-link.entity';
+import { VenueBookingInstructions } from './venue/venue-booking-instructions.entity';
+import { VenueBookingByPhone } from './venue/venue-booking-by-phone.entity';
+import { VenueBookingByEmail } from './venue/venue-booking-by-email.entity';
+import { VenueBookingByWebForm } from './venue/venue-booking-by-web-form.entity';
+import { VenueBookingBySnailMail } from './venue/venue-booking-by-snail-mail.entity';
+import { BandController } from './band/band.controller';
+import { BandService } from './band/band.service';
+import { VenueController } from './venue/venue.controller';
+import { VenueService } from './venue/venue.service';
+import { Gig } from './gig/gig.entity';
+import { GigController } from './gig/gig.controller';
+import { GigService } from './gig/gig.service';
+import { RecurringGig } from './gig/recurring-gig.entity';
+import { RecurringGigController } from './gig/recurring-gig.controller';
+import { RecurringGigService } from './gig/recurring-gig.service';
+import { UserFavoriteVenue } from './venue/user-favorite-venue.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      Household,
       User,
-      PasswordReset,
-      HelpRequest,
-      HelpOffer,
       EmailVerify,
       OAuthVerify,
       PasswordReset,
+      Household,
       S3Media,
+      HelpRequest,
+      HelpOffer,
       GeographicLocation,
-      CoSEvent,
-      CoSEventHandled,
+      GBEvent,
+      GBEventHandled,
+      SocialLink,
+      Band,
+      BandMember,
+      BandSocialLink,
+      Venue,
+      VenueSocialLink,
+      VenueBookingInstructions,
+      VenueBookingByPhone,
+      VenueBookingByEmail,
+      VenueBookingByWebForm,
+      VenueBookingBySnailMail,
+      Gig,
+      RecurringGig,
+      UserFavoriteVenue,
     ]),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
@@ -68,7 +105,7 @@ import { HelpController } from './help-request/help.controller';
         type: 'postgres',
         host: configService.get('DATABASE_HOST', 'localhost'),
         port: +configService.get('DATABASE_PORT', 5432),
-        database: configService.get('DATABASE_NAME', 'cupofsugar'),
+        database: configService.get('DATABASE_NAME', 'gigbooker'),
         username: configService.get('DATABASE_USER', 'test'),
         password: configService.get('DATABASE_PASSWORD'),
         entities: [
@@ -81,15 +118,39 @@ import { HelpController } from './help-request/help.controller';
           OAuthVerify,
           EmailVerify,
           S3Media,
-          CoSEvent,
-          CoSEventHandled,
+          GBEvent,
+          GBEventHandled,
+          SocialLink,
+          Band,
+          BandMember,
+          BandSocialLink,
+          Venue,
+          VenueSocialLink,
+          VenueBookingInstructions,
+          VenueBookingByPhone,
+          VenueBookingByEmail,
+          VenueBookingByWebForm,
+          VenueBookingBySnailMail,
+          Gig,
+          RecurringGig,
+          UserFavoriteVenue,
         ],
         synchronize: configService.get('DATABASE_HOST') === 'localhost',
       }),
     }),
   ],
-  exports: [AuthService, UserService, EventService, EventHandlingService, HelpService],
-  controllers: [AppController, AuthController, UserController, HelpController],
+  exports: [AuthService, UserService, EventService, EventHandlingService, HelpService, ElevenService],
+  controllers: [
+    AppController,
+    AuthController,
+    UserController,
+    HelpController,
+    ElevenController,
+    BandController,
+    VenueController,
+    GigController,
+    RecurringGigController,
+  ],
   providers: [
     AppService,
     // RunService, {
@@ -102,6 +163,11 @@ import { HelpController } from './help-request/help.controller';
     S3MediaService,
     EventService,
     EventHandlingService,
+    ElevenService,
+    BandService,
+    VenueService,
+    GigService,
+    RecurringGigService,
   ],
 })
 export class AppModule {}

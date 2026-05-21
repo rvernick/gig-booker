@@ -1,4 +1,4 @@
-# Cup of Sugar Backend
+# Gig Booker Backend
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
@@ -21,11 +21,11 @@
 
 Clone the repository (if not already cloned)
 ```bash
-$ git clone https://github.com/rvernick/cup-of-sugar
+$ git clone https://github.com/rvernick/gig-booker
 ```
 Move to backend repository on local device
 ```bash
-$ cd cup-of-sugar/backend/
+$ cd gig-booker/backend/
 ```
 Install Backend package.json
 ```bash
@@ -47,7 +47,7 @@ npm run typeorm migration:generate -- -d src/migration-source.ts ./migrations/<N
 ```
 ## Updating instructions
 Baseline instructions are held in the instructions.ts file.  When updated, the instructions stored in the DB can be updated with the following API call:
-https://cup-of-sugar-be.onrender.com/instruction/synchronize?secret=<SYNCHRONIZE_SECRET>
+https://gig-booker-be.onrender.com/instruction/synchronize?secret=<SYNCHRONIZE_SECRET>
 SYNCHRONIZE_SECRET is an environment variable kept on Render
 
 ## Running the app

@@ -1,58 +1,59 @@
-import { Tabs } from "expo-router";
-import { isMobileSize } from "@/common/utils";
+import { Drawer } from "expo-router/drawer";
+import {
+  type DrawerContentComponentProps,
+} from "@react-navigation/drawer";
 import {
   SettingsIcon,
   LogOutIcon,
-  CrossIcon,
-} from "lucide-react-native"
+  MusicIcon,
+  MapPinIcon,
+  CalendarIcon,
+} from "lucide-react-native";
 import { tabBarIconSize } from "@/common/constants";
 
-export default function TabLayout() {
+export default function CustomDrawerContent(props: DrawerContentComponentProps) {
   return (
-    <Tabs initialRouteName="(help-requests)">
-      <Tabs.Screen
-        name="(help-requests)"
+    <Drawer>
+      <Drawer.Screen
+        name='(gigs)'
         options={{
-          title: "Help",
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <CrossIcon size={tabBarIconSize} color={color} />
-          ),
+          drawerLabel: 'Gigs',
+          title: 'Gigs',
+          drawerIcon: (props) => <CalendarIcon size={tabBarIconSize} color={props.color} />,
         }}
       />
-      <Tabs.Screen
-        name="(settings)"
+      <Drawer.Screen
+        name='(bands)'
         options={{
-          title: "Settings",
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <SettingsIcon size={tabBarIconSize} color={color} />
-          ),
+          drawerLabel: 'Bands',
+          title: 'Bands',
+          drawerIcon: (props) => <MusicIcon size={tabBarIconSize} color={props.color} />,
         }}
       />
-      {isMobileSize() ? (
-        <Tabs.Screen
-          name="sign-out"
-          options={{
-            href: null,
-            title: "Sign Out",
-            headerShown: false,
-            tabBarIcon: ({ color }) => (
-              <LogOutIcon size={tabBarIconSize} color={color} />
-            ),
-          }}
-        />) : (
-        <Tabs.Screen
-          name="sign-out"
-          options={{
-            title: "Sign Out",
-            headerShown: false,
-            tabBarIcon: ({ color }) => (
-              <LogOutIcon size={tabBarIconSize} color={color} />
-            ),
-          }}
-        />
-        )}
-    </Tabs>
+      <Drawer.Screen
+        name='(venues)'
+        options={{
+          drawerLabel: 'Venues',
+          title: 'Venues',
+          drawerIcon: (props) => <MapPinIcon size={tabBarIconSize} color={props.color} />,
+        }}
+      />
+      <Drawer.Screen
+        name='(settings)'
+        options={{
+          drawerLabel: 'Settings',
+          title: 'Settings',
+          drawerIcon: (props) => <SettingsIcon size={tabBarIconSize} color={props.color} />,
+        }}
+      />
+      <Drawer.Screen
+        name='sign-out'
+        options={{
+          drawerLabel: 'Logout',
+          title: 'Logout',
+          drawerIcon: (props) => <LogOutIcon size={tabBarIconSize} color={props.color} />,
+        }}
+      />
+    </Drawer>
   );
 }

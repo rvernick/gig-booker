@@ -48,8 +48,11 @@ export class PasswordReset {
   @Column()
   expiresOn: Date;
 
-  @DeleteDateColumn()
-  deletedOn: boolean;
+  @DeleteDateColumn({
+    name: 'deleted_on',
+    nullable: true,
+  })
+  deletedOn: Date | null;
 
   @CreateDateColumn()
   createdOn: Date;

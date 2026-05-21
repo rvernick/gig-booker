@@ -3,15 +3,15 @@ import { devLog } from "./utils";
 
 export const baseUrl = () => {
   let defaultBase = 'http://10.0.2.2:4000';  // Android emulator
-  defaultBase = 'https://cup-of-sugar-be.onrender.com';
+  defaultBase = 'https://gig-booker-be.onrender.com';
   if (Platform.OS === 'web') {
     defaultBase = 'http://localhost:4000';
   }
   if (process.env.NODE_ENV === 'production') {
-    defaultBase = 'https://cup-of-sugar-be.onrender.com';
+    defaultBase = 'https://gig-booker-be.onrender.com';
   }
 
-  defaultBase = 'http://localhost:4000';
+  // defaultBase = 'http://localhost:4000';
 
   const result = process.env.BASE_URL || defaultBase;
   return ensureNoSlash(result);

@@ -17,7 +17,7 @@ export const identifyLogRocketMobile = (username: string, firstName: string, las
   try {
     initializeLogRocketMobile();
     const name = firstName + ' ' + lastName;
-    LogRocket.identify('CUP_OF_SUGAR_USER', {
+    LogRocket.identify('GIG_BOOKER_USER', {
       name: name,
       email: username,
 

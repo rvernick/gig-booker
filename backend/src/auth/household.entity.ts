@@ -30,8 +30,9 @@ export class Household {
 
   @DeleteDateColumn({
     name: 'deleted_on',
+    nullable: true,
   })
-  deletedOn: boolean;
+  deletedOn: Date | null;
 
   @CreateDateColumn({
     name: 'created_on',

@@ -1,4 +1,4 @@
-import { CoSEvent } from '../event/event.entity';
+import { GBEvent } from '../event/event.entity';
 import { EventType } from '../event/event-type.enum';
 
 export interface IEventHandler {
@@ -17,7 +17,7 @@ export interface IEventHandler {
    * @param event The event to handle
    * @returns Promise that resolves when handling is complete
    */
-  handle(event: CoSEvent): Promise<IEventHandledResult>;
+  handle(event: GBEvent): Promise<IEventHandledResult>;
 }
 
 export interface IEventHandledResult {

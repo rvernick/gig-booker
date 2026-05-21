@@ -56,11 +56,11 @@ export const sendEmail = async (
   subject: string,
   body: string,
   htmlBody: string = '',
-  from: string = 'info@cup-of-sugar.com',
+  from: string = 'info@gig-booker.com',
 ): Promise<boolean> => {
   if (isDevelopment()) {
     console.log(`DEV MODE: Altering emails from ${email.join(', ')} with subject "${subject}" and body "${body}"`);
-    const devEmail = process.env.DEV_EMAIL_ADDRESS || 'russ@cup-of-sugar.com';
+    const devEmail = process.env.DEV_EMAIL_ADDRESS || 'russ@gig-booker.com';
     const devSubject = `[DEV MODE] ${subject}`;
     return sendMailgunEmail([devEmail], devSubject, body, htmlBody, from);
   }

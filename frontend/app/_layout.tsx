@@ -10,6 +10,7 @@ import {
 import "@/global.css";
 
 import { useColorScheme } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { GlobalStateProvider } from '@/common/GlobalContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ErrorBoundary from 'react-native-error-boundary';
@@ -29,21 +30,23 @@ export default function RootLayout() {
   const queryClient = new QueryClient();
 
   return (
-    <ErrorBoundary onError={onError}>
-      <QueryClientProvider client={queryClient}>
-        <SessionProvider>
-          <NotificationProvider>
-            <GlobalStateProvider>
-              <ThemeProvider value={colorScheme} >
-                <GluestackUIProvider mode={systemColorScheme === 'dark' ? 'dark' : 'light'}>
-                  <RootNavigator />
-                </GluestackUIProvider>
-              </ThemeProvider>
-            </GlobalStateProvider>
-          </NotificationProvider>
-        </SessionProvider>
-      </QueryClientProvider>
-    </ErrorBoundary>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ErrorBoundary onError={onError}>
+        <QueryClientProvider client={queryClient}>
+          <SessionProvider>
+            <NotificationProvider>
+              <GlobalStateProvider>
+                <ThemeProvider value={colorScheme} >
+                  <GluestackUIProvider mode={systemColorScheme === 'dark' ? 'dark' : 'light'}>
+                    <RootNavigator />
+                  </GluestackUIProvider>
+                </ThemeProvider>
+              </GlobalStateProvider>
+            </NotificationProvider>
+          </SessionProvider>
+        </QueryClientProvider>
+      </ErrorBoundary>
+    </GestureHandlerRootView>
   );
 }
 

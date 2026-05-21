@@ -15,6 +15,7 @@ type PlacesTextInputProps = {
   readOnly?: boolean;
   placeId?: string;
   fetchDetails?: boolean;
+  hideClearButton?: boolean;
 }
 
 // handleHomePlaceSelect(place: Place, sessionToken?: string | null | undefined): void {
@@ -25,6 +26,7 @@ export const PlacesTextInput: React.FC<PlacesTextInputProps> = ({
   placeId,
   readOnly=false,
   fetchDetails=true,
+  hideClearButton=false,
   }) => {
 
   const [needsProxy, setNeedsProxy] = useState(!isMobile());
@@ -71,7 +73,7 @@ export const PlacesTextInput: React.FC<PlacesTextInputProps> = ({
         // onTextChange={updateStartLocationText}
         apiKey={googleMapsApiKey}
         onPlaceSelect={handleSelect}
-        showClearButton={!readOnly}
+        showClearButton={!readOnly && !hideClearButton}
         minCharsToFetch={2}
         detailsProxyUrl={proxyUrl}
         detailsProxyHeaders={proxyHeaders}

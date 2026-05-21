@@ -34,7 +34,6 @@ export class AuthController {
     return this.authService.googleSignIn(signInDto);
   }
 
-
   @Public()
   @Post('login')
   signIn(@Body() signInDto: LoginUserDto): Promise<{ access_token: string }> {
@@ -92,7 +91,7 @@ export class AuthController {
   @Get('healthCheck')
   health() {
     console.log('Health check running.  Returning okay.');
-    return 'Running';
+    return { status: 'Running'};
   }
 
   @Public()

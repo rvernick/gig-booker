@@ -15,13 +15,13 @@ import { Button, ButtonText } from "../ui/button";
 import { Text } from "../ui/text";
 import { Input, InputField } from "../ui/input";
 
-export interface CoSAvatarComponentProps {
+export interface GBAvatarComponentProps {
   photoId?: number;
   fallbackText: string;
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl"
 }
 
-const CoSAvatarComponent: React.FC<CoSAvatarComponentProps> = ({ photoId, fallbackText, size='md'  }) => {
+const GBAvatarComponent: React.FC<GBAvatarComponentProps> = ({ photoId, fallbackText, size='md'  }) => {
   const [image, setImage] = useState<string>('');
   const [flagOpen, setFlagOpen] = useState(false);
 
@@ -117,4 +117,4 @@ const CoSAvatarComponent: React.FC<CoSAvatarComponentProps> = ({ photoId, fallba
   );
 }
 
-export default CoSAvatarComponent;
+export default GBAvatarComponent;
